@@ -24,23 +24,10 @@
   <%= image_tag photo.image, class: "img-fluid" %>
   
   <div class="card-body">
-    <div class="mb-3 d-flex justify-content-between">
-      <div class="d-flex align-items-baseline">
-        <%= pluralize(photo.likes_count, "like") %>
-
-        <% like = current_user.likes.find_by(photo: photo) %>
-
-        <% if like %>
-          <%= link_to like, class: "btn btn-link", method: :delete do %>
-            <i class="fas fa-heart fa-fw"></i>
-
-            Un-like
-          <% end %>
-        <% else %>
-          <%= render "likes/form", like: photo.likes.build(fan: current_user) %>
-        <% end %>
-      </div>
-
+    <div id="<%= dom_id(photo) %>_likes" class="mb-3 d-flex justify-content-between">
+      <%= render "photos/likes", photo: photo %>
+      
+    
       <div>
         <% unless policy(photo).show? %>
           <%= render "follow_requests/follow_unfollow", recipient: photo.owner %>
